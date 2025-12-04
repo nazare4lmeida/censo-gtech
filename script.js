@@ -8,14 +8,14 @@ const questoesCenso = [
       "Edição Presencial - 2024",
       "Edição Online - 2024",
       "Edição Presencial - 2025",
-      "Edição Online - 2025"
-    ]
+      "Edição Online - 2025",
+    ],
   },
   {
     id: "atualizacao_cadastro",
     tipo: "text",
     pergunta: "Atualização de Cadastro (Descrição opcional):",
-    placeholder: "Ex: Mudei de endereço, troquei de telefone..."
+    placeholder: "Ex: Mudei de endereço, troquei de telefone...",
   },
   {
     id: "ensino_superior",
@@ -25,32 +25,33 @@ const questoesCenso = [
       "Sim, comecei antes do projeto",
       "Sim, comecei depois do projeto",
       "Ainda não",
-      "Já sou graduado"
-    ]
+      "Já sou graduado",
+    ],
   },
   {
     id: "qual_curso",
     tipo: "text",
     pergunta: "Se sim, qual o curso?",
-    placeholder: "Digite o nome do curso (se aplicável)"
+    placeholder: "Digite o nome do curso (se aplicável)",
   },
   {
     id: "mercado_trabalho",
     tipo: "radio",
     pergunta: "Você está no mercado de trabalho?",
-    opcoes: ["Sim", "Ainda não"]
+    opcoes: ["Sim", "Ainda não"],
   },
   {
     id: "trabalha_tech",
     tipo: "radio",
     pergunta: "Se está trabalhando, está na área de tecnologia?",
-    opcoes: ["Sim", "Não", "Não estou trabalhando"]
+    opcoes: ["Sim", "Não", "Não estou trabalhando"],
   },
   {
     id: "projetos_prog",
     tipo: "radio",
-    pergunta: "Você está envolvido em projetos de programação no momento? (Seja para empresa ou freelancer)",
-    opcoes: ["Sim", "Não"]
+    pergunta:
+      "Você está envolvido em projetos de programação no momento? (Seja para empresa ou freelancer)",
+    opcoes: ["Sim", "Não"],
   },
   {
     id: "tipo_atuacao",
@@ -61,8 +62,8 @@ const questoesCenso = [
       "CLT",
       "Estágio",
       "Outro",
-      "Não atuo na área ainda"
-    ]
+      "Não atuo na área ainda",
+    ],
   },
   {
     id: "naturalidade",
@@ -71,39 +72,33 @@ const questoesCenso = [
     opcoes: [
       "Fortaleza-CE",
       "Região Metropolitana/Interior do Ceará",
-      "Nascido em outro Estado"
-    ]
+      "Nascido em outro Estado",
+    ],
   },
   {
     id: "raca",
     tipo: "radio",
     pergunta: "Sua Raça autodeclarada:",
-    opcoes: [
-      "Branca",
-      "Indígena",
-      "Parda",
-      "Preta",
-      "Prefiro não declarar"
-    ]
+    opcoes: ["Branca", "Indígena", "Parda", "Preta", "Prefiro não declarar"],
   },
   {
     id: "pcd",
     tipo: "radio",
     pergunta: "É PCD (Pessoa com Deficiência)?",
-    opcoes: ["Sim", "Não"]
+    opcoes: ["Sim", "Não"],
   },
   {
     id: "qual_pcd",
     tipo: "text",
     pergunta: "Se sim, Qual?",
-    placeholder: "Descreva se aplicável"
+    placeholder: "Descreva se aplicável",
   },
-    {
+  {
     id: "linkedin",
     tipo: "text",
     pergunta: "Insira o link do seu LinkedIn:",
-    placeholder: "https://linkedin.com/in/seu-perfil"
-  }
+    placeholder: "https://linkedin.com/in/seu-perfil",
+  },
 ];
 
 // --- SELETORES DO DOM ---
@@ -137,22 +132,26 @@ proximaQuestaoBtn.id = "proxima-questao";
 proximaQuestaoBtn.textContent = "Próxima";
 navContainer.appendChild(proximaQuestaoBtn);
 
-
 // --- VARIÁVEIS DE ESTADO ---
 let indiceQuestaoAtual = 0;
 let nomeUsuario = "";
 let emailUsuario = "";
-let respostasUsuario = {}; 
+let respostasUsuario = {};
 let censoConcluido = sessionStorage.getItem("censoConcluido") === "true";
 
 // --- INICIALIZAÇÃO ---
 function mostrarSeccao(seccao) {
-  document.querySelectorAll(".quiz-section").forEach((sec) => sec.classList.remove("active"));
+  document
+    .querySelectorAll(".quiz-section")
+    .forEach((sec) => sec.classList.remove("active"));
   document.getElementById(seccao).classList.add("active");
 }
 
 if (censoConcluido) {
-  mostrarFimCenso("Obrigado! Seus dados já foram registrados anteriormente.", false);
+  mostrarFimCenso(
+    "Obrigado! Seus dados já foram registrados anteriormente.",
+    false
+  );
 } else {
   mostrarSeccao("homepage");
 }
@@ -165,7 +164,7 @@ cadastroForm.addEventListener("submit", (e) => {
   e.preventDefault();
   nomeUsuario = document.getElementById("nome").value;
   emailUsuario = document.getElementById("email").value;
-  
+
   respostasUsuario["nome"] = nomeUsuario;
   respostasUsuario["email"] = emailUsuario;
 
@@ -177,10 +176,10 @@ cadastroForm.addEventListener("submit", (e) => {
 
 function exibirQuestao() {
   const questao = questoesCenso[indiceQuestaoAtual];
-  
+
   // Limpa container e feedback
   questoesContainer.innerHTML = "";
-  feedbackQuestaoDiv.innerHTML = ""; 
+  feedbackQuestaoDiv.innerHTML = "";
   feedbackQuestaoDiv.className = "feedback-large";
 
   // Gerencia visibilidade do botão Voltar
@@ -201,7 +200,9 @@ function exibirQuestao() {
   let htmlContent = `
     <div class="questao">
       <div class="pergunta-header">
-        <span class="questao-nivel">Questão ${indiceQuestaoAtual + 1} de ${questoesCenso.length}</span>
+        <span class="questao-nivel">Questão ${indiceQuestaoAtual + 1} de ${
+    questoesCenso.length
+  }</span>
       </div>
       <h3>${questao.pergunta}</h3>
   `;
@@ -211,9 +212,9 @@ function exibirQuestao() {
 
   if (questao.tipo === "radio") {
     htmlContent += `<div class="opcoes">`;
-    questao.opcoes.forEach(opcao => {
+    questao.opcoes.forEach((opcao) => {
       const checked = respostaSalva === opcao ? "checked" : "";
-      
+
       htmlContent += `
         <label>
           <input type="radio" name="${questao.id}" value="${opcao}" ${checked}>
@@ -226,7 +227,7 @@ function exibirQuestao() {
     htmlContent += `
       <div class="opcoes" style="border:none; box-shadow:none; background:transparent;">
         <input type="text" id="input-${questao.id}" 
-          placeholder="${questao.placeholder || ''}" 
+          placeholder="${questao.placeholder || ""}" 
           value="${respostaSalva}"
           style="width: 100%; padding: 15px; margin-top: 10px; border-radius: 8px; border: 1px solid #ccc;">
       </div>
@@ -237,27 +238,29 @@ function exibirQuestao() {
   questoesContainer.innerHTML = htmlContent;
 
   // UX: Highlight na seleção
-  if(questao.tipo === "radio") {
-     const radios = document.querySelectorAll(`input[name="${questao.id}"]`);
-     radios.forEach(radio => {
-         radio.addEventListener('change', () => {
-             document.querySelectorAll('.opcoes label').forEach(l => l.style.backgroundColor = ''); 
-             radio.parentElement.style.backgroundColor = '#e3e8ec';
-         });
-         // Marca visualmente se já veio preenchido
-         if(radio.checked) {
-             radio.parentElement.style.backgroundColor = '#e3e8ec';
-         }
-     });
+  if (questao.tipo === "radio") {
+    const radios = document.querySelectorAll(`input[name="${questao.id}"]`);
+    radios.forEach((radio) => {
+      radio.addEventListener("change", () => {
+        document
+          .querySelectorAll(".opcoes label")
+          .forEach((l) => (l.style.backgroundColor = ""));
+        radio.parentElement.style.backgroundColor = "#e3e8ec";
+      });
+      // Marca visualmente se já veio preenchido
+      if (radio.checked) {
+        radio.parentElement.style.backgroundColor = "#e3e8ec";
+      }
+    });
   }
 }
 
 // --- BOTÃO VOLTAR ---
 anteriorQuestaoBtn.onclick = () => {
-    if (indiceQuestaoAtual > 0) {
-        indiceQuestaoAtual--;
-        exibirQuestao();
-    }
+  if (indiceQuestaoAtual > 0) {
+    indiceQuestaoAtual--;
+    exibirQuestao();
+  }
 };
 
 // --- BOTÃO PRÓXIMA ---
@@ -268,7 +271,9 @@ proximaQuestaoBtn.onclick = () => {
 
   // Captura resposta
   if (questao.tipo === "radio") {
-    const selecionado = document.querySelector(`input[name="${questao.id}"]:checked`);
+    const selecionado = document.querySelector(
+      `input[name="${questao.id}"]:checked`
+    );
     if (selecionado) {
       resposta = selecionado.value;
       respondeu = true;
@@ -276,12 +281,13 @@ proximaQuestaoBtn.onclick = () => {
   } else if (questao.tipo === "text") {
     const inputTexto = document.getElementById(`input-${questao.id}`);
     resposta = inputTexto.value.trim();
-    respondeu = true; 
+    respondeu = true;
   }
 
   // Validação (apenas para radios)
   if (questao.tipo === "radio" && !respondeu) {
-    feedbackQuestaoDiv.innerHTML = "<p style='color: #c95151;'>Por favor, selecione uma opção.</p>";
+    feedbackQuestaoDiv.innerHTML =
+      "<p style='color: #c95151;'>Por favor, selecione uma opção.</p>";
     return;
   }
 
@@ -301,20 +307,23 @@ function finalizarCenso() {
   mostrarSeccao("resultado");
   // Oculta botões de navegação
   navContainer.style.display = "none";
-  
+
   // Envia para o Google Sheets
   enviarParaGoogleForms(respostasUsuario);
-  
+
   // Mostra tela final com opção de email
-  mostrarFimCenso("Seus dados foram coletados com sucesso. Obrigado por fazer parte do Geração Tech!", true);
-  
+  mostrarFimCenso(
+    "Seus dados foram coletados com sucesso. Obrigado por fazer parte do Geração Tech!",
+    true
+  );
+
   sessionStorage.setItem("censoConcluido", "true");
 }
 
 function mostrarFimCenso(mensagem, mostrarBotaoEmail) {
   mostrarSeccao("resultado");
-  if(nivelResultadoFinal) nivelResultadoFinal.style.display = 'none';
-  
+  if (nivelResultadoFinal) nivelResultadoFinal.style.display = "none";
+
   analiseFinal.innerHTML = `
     <div class="feedback-final-card" style="text-align:center;">
       <h3 style="color: #273f2f; margin-bottom: 15px;">Censo Concluído!</h3>
@@ -324,32 +333,32 @@ function mostrarFimCenso(mensagem, mostrarBotaoEmail) {
 
   // Renderiza o botão de e-mail se solicitado
   if (mostrarBotaoEmail) {
-      botoesAcaoContainer.innerHTML = `
+    botoesAcaoContainer.innerHTML = `
         <div class="botoes-resultado">
              <button id="enviar-email-btn">Enviar cópia para meu e-mail</button>
         </div>
       `;
-      
-      const btnEmail = document.getElementById("enviar-email-btn");
-      btnEmail.addEventListener("click", () => {
-          enviarEmailCopia(respostasUsuario, btnEmail);
-      });
+
+    const btnEmail = document.getElementById("enviar-email-btn");
+    btnEmail.addEventListener("click", () => {
+      enviarEmailCopia(respostasUsuario, btnEmail);
+    });
   }
 }
 
 // --- INTEGRAÇÃO GOOGLE FORMS (IDs extraídos do link ScVG) ---
 function enviarParaGoogleForms(dados) {
-  
   // 1. URL DO FORMULÁRIO (Formulário ScVG)
   // Lembre-se: trocamos /viewform por /formResponse
-  const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLScVGJY5RXiRUuWKFCslwVxRTo85e8IWuL47ZRzgb_Si9W2T5Q/formResponse";
-  
+  const FORM_URL =
+    "https://docs.google.com/forms/d/e/1FAIpQLScVGJY5RXiRUuWKFCslwVxRTo85e8IWuL47ZRzgb_Si9W2T5Q/formResponse";
+
   const params = new URLSearchParams();
 
   // --- Mapeamento Exato do Link Enviado ---
 
   // entry.392478167=n (Nome)
-  params.append("entry.392478167", dados.nome); 
+  params.append("entry.392478167", dados.nome);
 
   // entry.480521695=n (Email)
   params.append("entry.480521695", dados.email);
@@ -392,15 +401,18 @@ function enviarParaGoogleForms(dados) {
 
   // entry.1788347010=n (LinkedIn)
   params.append("entry.1788347010", dados.linkedin);
-
+  // ADICIONE ISSO PARA TESTAR:
+  const urlTeste =
+    FORM_URL.replace("/formResponse", "/viewform") + "?" + params.toString();
+  console.log("🔗 LINK DE TESTE (Clique para ver o erro):", urlTeste);
   // Envio
   fetch(FORM_URL, {
     method: "POST",
     body: params,
     mode: "no-cors",
   })
-  .then(() => console.log("Dados enviados para o Google Sheets com sucesso!"))
-  .catch((e) => console.error("Erro no envio forms", e));
+    .then(() => console.log("Dados enviados para o Google Sheets com sucesso!"))
+    .catch((e) => console.error("Erro no envio forms", e));
 }
 // --- ENVIO DE EMAIL (API) ---
 async function enviarEmailCopia(dados, botao) {
@@ -408,34 +420,34 @@ async function enviarEmailCopia(dados, botao) {
   botao.disabled = true;
 
   try {
-      await fetch("https://censo-gtech.vercel.app/api/send-email", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(dados),
-      })
-      .then(res => res.json())
-      .then(data => {
-          if(data.ok || data.success) {
-            Swal.fire({
-                icon: "success",
-                title: "Enviado!",
-                text: "Uma cópia das respostas foi enviada para " + dados.email,
-                confirmButtonColor: "#39586D",
-            });
-            botao.textContent = "E-mail Enviado!";
-          } else {
-             throw new Error("Erro na API");
-          }
+    await fetch("https://censo-gtech.vercel.app/api/send-email", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(dados),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.ok || data.success) {
+          Swal.fire({
+            icon: "success",
+            title: "Enviado!",
+            text: "Uma cópia das respostas foi enviada para " + dados.email,
+            confirmButtonColor: "#39586D",
+          });
+          botao.textContent = "E-mail Enviado!";
+        } else {
+          throw new Error("Erro na API");
+        }
       });
   } catch (err) {
-      console.error(err);
-      Swal.fire({
-        icon: "error",
-        title: "Ops...",
-        text: "Não foi possível enviar o e-mail agora. Mas não se preocupe, seus dados já foram salvos no Censo.",
-        confirmButtonColor: "#39586D",
-      });
-      botao.textContent = "Tentar Novamente";
-      botao.disabled = false;
+    console.error(err);
+    Swal.fire({
+      icon: "error",
+      title: "Ops...",
+      text: "Não foi possível enviar o e-mail agora. Mas não se preocupe, seus dados já foram salvos no Censo.",
+      confirmButtonColor: "#39586D",
+    });
+    botao.textContent = "Tentar Novamente";
+    botao.disabled = false;
   }
 }
