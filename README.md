@@ -46,7 +46,7 @@ Caso queira testar ou contribuir com o código em sua máquina:
 
 1.  **Clone o repositório:**
     ```bash
-    git clone [https://github.com/nazare4lmeida/devcheck-housejs.git](https://github.com/nazare4lmeida/devcheck-housejs.git)
+    git clone https://github.com/nazare4lmeida/censo-gtech.git
     ```
 2.  **Instale as dependências:**
     ```bash

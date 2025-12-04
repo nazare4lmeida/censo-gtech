@@ -1,4 +1,4 @@
-// --- DADOS DO CENSO ---
+// --- DADOS DO CENSO (Baseado no Formulário Geração Tech) ---
 const questoesCenso = [
   {
     id: "edicao_gt",
@@ -65,12 +65,6 @@ const questoesCenso = [
     ]
   },
   {
-    id: "linkedin",
-    tipo: "text",
-    pergunta: "Insira o link do seu LinkedIn:",
-    placeholder: "https://linkedin.com/in/seu-perfil"
-  },
-  {
     id: "naturalidade",
     tipo: "radio",
     pergunta: "Naturalidade:",
@@ -103,6 +97,12 @@ const questoesCenso = [
     tipo: "text",
     pergunta: "Se sim, Qual?",
     placeholder: "Descreva se aplicável"
+  },
+    {
+    id: "linkedin",
+    tipo: "text",
+    pergunta: "Insira o link do seu LinkedIn:",
+    placeholder: "https://linkedin.com/in/seu-perfil"
   }
 ];
 
@@ -117,10 +117,9 @@ const feedbackQuestaoDiv = document.getElementById("feedback-questao");
 const resultadoSection = document.getElementById("resultado");
 const nivelResultadoFinal = document.getElementById("nivel-resultado-final");
 const analiseFinal = document.getElementById("analise-final");
-const botoesAcaoContainer = document.getElementById("botoes-acao-container"); // Novo container na tela final
+const botoesAcaoContainer = document.getElementById("botoes-acao-container");
 
-// --- CRIAÇÃO DOS BOTÕES DE NAVEGAÇÃO ---
-// Container para os botões (Voltar e Próxima)
+// --- BOTÕES DE NAVEGAÇÃO ---
 const navContainer = document.createElement("div");
 navContainer.className = "botoes-nav";
 quizSection.appendChild(navContainer);
@@ -129,7 +128,7 @@ quizSection.appendChild(navContainer);
 const anteriorQuestaoBtn = document.createElement("button");
 anteriorQuestaoBtn.id = "anterior-questao";
 anteriorQuestaoBtn.textContent = "Voltar";
-anteriorQuestaoBtn.style.display = "none"; // Começa invisível
+anteriorQuestaoBtn.style.display = "none";
 navContainer.appendChild(anteriorQuestaoBtn);
 
 // Botão Próxima
@@ -188,7 +187,7 @@ function exibirQuestao() {
   if (indiceQuestaoAtual === 0) {
     anteriorQuestaoBtn.style.display = "none";
   } else {
-    anteriorQuestaoBtn.style.display = "block"; // ou "inline-block" dependendo do flex
+    anteriorQuestaoBtn.style.display = "block";
   }
 
   // Muda texto do botão Próxima se for a última
@@ -207,13 +206,12 @@ function exibirQuestao() {
       <h3>${questao.pergunta}</h3>
   `;
 
-  // Verifica se já tem resposta salva para preencher (MEMÓRIA)
+  // Verifica se já tem resposta salva (State Memory)
   const respostaSalva = respostasUsuario[questao.id] || "";
 
   if (questao.tipo === "radio") {
     htmlContent += `<div class="opcoes">`;
     questao.opcoes.forEach(opcao => {
-      // Checa se essa opção é a que estava salva
       const checked = respostaSalva === opcao ? "checked" : "";
       
       htmlContent += `
@@ -278,7 +276,7 @@ proximaQuestaoBtn.onclick = () => {
   } else if (questao.tipo === "text") {
     const inputTexto = document.getElementById(`input-${questao.id}`);
     resposta = inputTexto.value.trim();
-    respondeu = true; // Textos assumimos como opcionais ou sempre válidos por enquanto
+    respondeu = true; 
   }
 
   // Validação (apenas para radios)
@@ -339,40 +337,60 @@ function mostrarFimCenso(mensagem, mostrarBotaoEmail) {
   }
 }
 
-// --- INTEGRAÇÃO GOOGLE FORMS (Não esqueça de colocar os IDs reais!) ---
+/// --- INTEGRAÇÃO GOOGLE FORMS (IDs Finais Extraídos do seu Link) ---
 function enviarParaGoogleForms(dados) {
-  const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSdlahHWiLMMTDBC5PP0mUwU3RTzcUHarPfbeR5AVdGrahcIig/formResponse";
+  
+  // 1. URL DE ENVIO (Trocamos /viewform por /formResponse)
+  const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLScVGJY5RXiRUuWKFCslwVxRTo85e8IWuL47ZRzgb_Si9W2T5Q/formResponse";
+  
   const params = new URLSearchParams();
 
-  params.append("entry.697814456", dados.nome);           
-  params.append("entry.1742734606", dados.email);         
-  
-  // params.append("entry.SEU_ID_AQUI", dados.edicao_gt);
-  // ... mapeie o resto aqui ...
+  // --- MAPEAMENTO DOS CAMPOS ---
+  // Extraídos do link: entry.392478167=Na&entry.480521695=na@gmail.com...
 
+  // Dados Pessoais
+  params.append("entry.392478167", dados.nome);           // Nome
+  params.append("entry.480521695", dados.email);          // Email
+
+  // Dados do Censo
+  params.append("entry.1532253013", dados.edicao_gt);          // Edição GT
+  params.append("entry.321850158", dados.atualizacao_cadastro);// Atualização Cadastral
+  params.append("entry.527423333", dados.ensino_superior);     // Ensino Superior
+  params.append("entry.988922620", dados.qual_curso);          // Qual Curso
+  params.append("entry.1463990092", dados.mercado_trabalho);   // Mercado Trabalho
+  params.append("entry.1163640138", dados.trabalha_tech);      // Trabalha Tech
+  params.append("entry.851163817", dados.projetos_prog);       // Envolvido em Projetos
+  params.append("entry.581063350", dados.tipo_atuacao);        // Tipo de Atuação
+  params.append("entry.1743511537", dados.naturalidade);       // Naturalidade
+  params.append("entry.1669362593", dados.raca);               // Raça
+  params.append("entry.168974903", dados.pcd);                 // PCD
+  params.append("entry.156868990", dados.qual_pcd);            // Qual PCD
+  params.append("entry.1788347010", dados.linkedin);           // LinkedIn
+
+  // Envio
   fetch(FORM_URL, {
     method: "POST",
     body: params,
-    mode: "no-cors",
-  }).catch((e) => console.error("Erro no envio forms", e));
+    mode: "no-cors", // Importante para não dar erro de segurança no navegador
+  })
+  .then(() => console.log("Dados enviados para o Google Sheets com sucesso!"))
+  .catch((e) => console.error("Erro no envio forms", e));
 }
 
 // --- ENVIO DE EMAIL (API) ---
 async function enviarEmailCopia(dados, botao) {
-  // Feedback visual que está carregando
   botao.textContent = "Enviando...";
   botao.disabled = true;
 
   try {
-      // IMPORTANTE: Essa API precisa estar preparada para receber o JSON com a estrutura nova do Censo
-      await fetch("https://devcheck-housejs.vercel.app/api/send-email", {
+      await fetch("linkdovercel", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(dados),
       })
       .then(res => res.json())
       .then(data => {
-          if(data.ok || data.success) { // Ajuste conforme o retorno da sua API
+          if(data.ok || data.success) {
             Swal.fire({
                 icon: "success",
                 title: "Enviado!",
