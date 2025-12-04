@@ -408,7 +408,7 @@ async function enviarEmailCopia(dados, botao) {
   botao.disabled = true;
 
   try {
-      await fetch("linkdovercel", {
+      await fetch("https://censo-gtech.vercel.app/api/send-email", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(dados),
