@@ -337,46 +337,71 @@ function mostrarFimCenso(mensagem, mostrarBotaoEmail) {
   }
 }
 
-/// --- INTEGRAÇÃO GOOGLE FORMS (IDs Finais Extraídos do seu Link) ---
+// --- INTEGRAÇÃO GOOGLE FORMS (IDs extraídos do link ScVG) ---
 function enviarParaGoogleForms(dados) {
   
-  // 1. URL DE ENVIO (Trocamos /viewform por /formResponse)
+  // 1. URL DO FORMULÁRIO (Formulário ScVG)
+  // Lembre-se: trocamos /viewform por /formResponse
   const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLScVGJY5RXiRUuWKFCslwVxRTo85e8IWuL47ZRzgb_Si9W2T5Q/formResponse";
   
   const params = new URLSearchParams();
 
-  // --- MAPEAMENTO DOS CAMPOS ---
-  // Extraídos do link: entry.392478167=Na&entry.480521695=na@gmail.com...
+  // --- Mapeamento Exato do Link Enviado ---
 
-  // Dados Pessoais
-  params.append("entry.392478167", dados.nome);           // Nome
-  params.append("entry.480521695", dados.email);          // Email
+  // entry.392478167=n (Nome)
+  params.append("entry.392478167", dados.nome); 
 
-  // Dados do Censo
-  params.append("entry.1532253013", dados.edicao_gt);          // Edição GT
-  params.append("entry.321850158", dados.atualizacao_cadastro);// Atualização Cadastral
-  params.append("entry.527423333", dados.ensino_superior);     // Ensino Superior
-  params.append("entry.988922620", dados.qual_curso);          // Qual Curso
-  params.append("entry.1463990092", dados.mercado_trabalho);   // Mercado Trabalho
-  params.append("entry.1163640138", dados.trabalha_tech);      // Trabalha Tech
-  params.append("entry.851163817", dados.projetos_prog);       // Envolvido em Projetos
-  params.append("entry.581063350", dados.tipo_atuacao);        // Tipo de Atuação
-  params.append("entry.1743511537", dados.naturalidade);       // Naturalidade
-  params.append("entry.1669362593", dados.raca);               // Raça
-  params.append("entry.168974903", dados.pcd);                 // PCD
-  params.append("entry.156868990", dados.qual_pcd);            // Qual PCD
-  params.append("entry.1788347010", dados.linkedin);           // LinkedIn
+  // entry.480521695=n (Email)
+  params.append("entry.480521695", dados.email);
+
+  // entry.1532253013=Edição... (Edição GT)
+  params.append("entry.1532253013", dados.edicao_gt);
+
+  // entry.321850158=n (Atualização Cadastro)
+  params.append("entry.321850158", dados.atualizacao_cadastro);
+
+  // entry.527423333=Sim... (Ensino Superior)
+  params.append("entry.527423333", dados.ensino_superior);
+
+  // entry.988922620=n (Qual Curso)
+  params.append("entry.988922620", dados.qual_curso);
+
+  // entry.1463990092=Sim (Mercado de Trabalho)
+  params.append("entry.1463990092", dados.mercado_trabalho);
+
+  // entry.1163640138=Sim (Trabalha Tech)
+  params.append("entry.1163640138", dados.trabalha_tech);
+
+  // entry.851163817=Sim (Projetos Prog)
+  params.append("entry.851163817", dados.projetos_prog);
+
+  // entry.581063350=CLT (Tipo Atuação)
+  params.append("entry.581063350", dados.tipo_atuacao);
+
+  // entry.1743511537=Nascido... (Naturalidade)
+  params.append("entry.1743511537", dados.naturalidade);
+
+  // entry.1669362593=Prefiro... (Raça)
+  params.append("entry.1669362593", dados.raca);
+
+  // entry.168974903=Não (PCD)
+  params.append("entry.168974903", dados.pcd);
+
+  // entry.156868990=n (Qual PCD)
+  params.append("entry.156868990", dados.qual_pcd);
+
+  // entry.1788347010=n (LinkedIn)
+  params.append("entry.1788347010", dados.linkedin);
 
   // Envio
   fetch(FORM_URL, {
     method: "POST",
     body: params,
-    mode: "no-cors", // Importante para não dar erro de segurança no navegador
+    mode: "no-cors",
   })
   .then(() => console.log("Dados enviados para o Google Sheets com sucesso!"))
   .catch((e) => console.error("Erro no envio forms", e));
 }
-
 // --- ENVIO DE EMAIL (API) ---
 async function enviarEmailCopia(dados, botao) {
   botao.textContent = "Enviando...";
