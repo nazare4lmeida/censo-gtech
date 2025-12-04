@@ -1,0 +1,351 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
+
+/* --- Variáveis baseadas na Paleta Navy Dream --- */
+:root {
+  --bg-body: #D2D7DB;       /* Cor mais clara da paleta para o fundo */
+  --bg-card: #F7F7F7;       /* Fundo do quiz (quase branco) */
+  --text-primary: #2C4156;  /* Azul marinho escuro para leitura */
+  --text-secondary: #39586D;/* Azul médio para subtítulos */
+  --text-muted: #7F99B2;    /* Texto de apoio */
+  
+  --primary-btn: #39586D;   /* Cor principal do botão */
+  --primary-btn-hover: #2C4156; /* Cor do hover */
+  
+  --border-color: #98A1AA;  /* Bordas suaves */
+  --input-bg: #FFFFFF;      /* Fundo branco puro para inputs */
+  
+  /* Cores de Feedback */
+  --success-bg: #d4edda;
+  --success-border: #c3e6cb;
+  --success-text: #155724;
+  
+  --error-bg: #f8d7da;
+  --error-border: #f5c6cb;
+  --error-text: #721c24;
+}
+
+/* Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: var(--bg-body);
+  color: var(--text-primary);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.quiz-container {
+  background-color: var(--bg-card);
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(44, 65, 86, 0.15);
+  border: 1px solid #ffffff;
+  max-width: 100%;
+  width: 100%;
+  padding: 40px 40px;
+  text-align: center;
+}
+
+.house-js-logo, 
+.house-js-logo-small, 
+.logo-cadastro-large {
+  max-width: 250px;
+  margin-bottom: 30px;
+  border-radius: 10px;
+}
+
+.quiz-section {
+  display: none;
+}
+
+.quiz-section.active {
+  display: block;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+h1 {
+  font-size: 2.4em;
+  margin-bottom: 15px;
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 2em;
+  margin-bottom: 20px;
+  color: var(--text-secondary);
+}
+
+h3 {
+  font-size: 1.8em;
+  margin-bottom: 15px;
+  color: var(--text-primary);
+}
+
+p {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 12px;
+  font-size: 1.1em;
+}
+
+/* --- Botões Gerais --- */
+button {
+  background-color: var(--primary-btn);
+  color: #ffffff;
+  border: none;
+  padding: 18px 32px;
+  font-size: 1.2em;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 20px;
+  width: 100%;
+  max-width: 350px;
+  box-shadow: 0 4px 6px rgba(57, 88, 109, 0.2);
+}
+
+button:hover {
+  background-color: var(--primary-btn-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(44, 65, 86, 0.3);
+}
+
+#cadastro-form button[type="submit"] {
+  max-width: 350px;
+  align-self: center;
+  margin-top: 40px;
+}
+
+/* --- NOVA SEÇÃO: Botões de Navegação (Voltar/Próxima) --- */
+.botoes-nav {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 30px;
+  width: 100%;
+  max-width: 400px; /* Um pouco mais largo para caber os dois */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Botão Voltar (Secundário/Cinza) */
+#anterior-questao {
+  background-color: #98A1AA; /* Cinza da paleta */
+  margin-top: 0;
+  box-shadow: none;
+}
+
+#anterior-questao:hover {
+  background-color: #7F99B2;
+}
+
+/* Ajuste no Botão Próxima quando está dentro do nav */
+#proxima-questao {
+  margin-top: 0;
+}
+
+/* Garante que ambos tenham o mesmo tamanho */
+.botoes-nav button {
+  flex: 1;
+}
+
+
+/* --- Inputs do Formulário --- */
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  margin-top: 20px;
+}
+
+label {
+  text-align: left;
+  margin: 10px 0;
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 1.1em;
+}
+
+input[type="text"],
+input[type="email"] {
+  background-color: var(--input-bg);
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  padding: 16px 20px;
+  font-size: 1.1em;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+  transition: border-color 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus {
+  outline: none;
+  border-color: var(--primary-btn);
+  background-color: #f0f4f8;
+}
+
+/* --- Área do Quiz/Censo --- */
+.quiz-large .questao {
+  padding: 20px;
+}
+
+.quiz-large .questao h3 {
+  font-size: 1.8em;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+
+.quiz-large .pergunta-header {
+  margin-bottom: 20px;
+}
+
+.quiz-large .questao-nivel {
+  background-color: var(--bg-body);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  font-size: 0.9em;
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* --- Opções de Resposta --- */
+.opcoes {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.opcoes label {
+  background-color: #FFFFFF;
+  border: 2px solid #E0E0E0;
+  border-radius: 12px;
+  padding: 20px 25px;
+  text-align: left;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  color: var(--text-primary);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  font-weight: 500;
+}
+
+.opcoes label:hover {
+  background-color: #f0f7fa;
+  border-color: var(--text-muted);
+  transform: translateY(-2px);
+}
+
+/* Estilo do Radio Button (Bolinha) */
+.opcoes input[type="radio"] {
+  transform: scale(1.4);       /* Maior */
+  margin-right: 18px;          /* Separado do texto */
+  accent-color: var(--primary-btn); /* Cor azul petróleo ao marcar */
+  cursor: pointer;
+}
+
+.opcoes label span {
+  display: block;
+  font-size: 1.2rem;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+/* Feedback Box */
+.feedback-questao {
+  margin: 15px auto 0;
+  padding: 15px 20px;
+  border-radius: 8px;
+  text-align: left;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 1em;
+}
+
+/* Resultado Final */
+.resultado-card {
+  background-color: #FFFFFF;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 30px;
+  margin-top: 25px;
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.02);
+}
+
+#nivel-resultado-final h3 {
+  color: var(--primary-btn);
+  margin-bottom: 10px;
+}
+
+/* Container de botões da tela final (Email/Reiniciar) */
+.botoes-resultado {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.botoes-resultado button {
+  background-color: var(--bg-body);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  box-shadow: none;
+}
+
+.botoes-resultado button:hover {
+  background-color: var(--border-color);
+  color: #fff;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  body { padding: 10px; }
+  .quiz-container { padding: 30px 20px; }
+  
+  h1 { font-size: 2em; }
+  h3 { font-size: 1.5em; }
+  
+  .opcoes label span {
+    font-size: 1.1rem;
+  }
+
+  .opcoes input[type="radio"] {
+    margin-right: 12px;
+  }
+  
+  .botoes-resultado {
+    flex-direction: column;
+  }
+
+  /* No mobile, os botões de navegação podem empilhar se o texto for grande,
+     mas geralmente lado a lado funciona bem se o texto for curto (Voltar/Próxima).
+     Se quiser empilhar: */
+  /* .botoes-nav {
+    flex-direction: column;
+  } 
+  */
+}

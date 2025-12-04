@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Censo Geração Tech - IEL & Digital College</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="quiz-container">
+      <section id="homepage" class="quiz-section active">
+        <img src="logo2.png" alt="Logo Geração Tech" class="house-js-logo" />
+        
+        <h1>Censo Geração Tech</h1>
+        
+        <p>
+          Participe do mapeamento do cenário tecnológico da nossa comunidade. 
+          Responda a este censo interativo para nos ajudar a entender o perfil, 
+          as habilidades e os interesses dos talentos da área de tecnologia.
+        </p>
+        <button id="iniciar-quiz">Iniciar Censo</button>
+      </section>
+
+      <section id="cadastro" class="quiz-section cadastro-large">
+        <img
+          src="logo2.png"
+          alt="Logo Geração Tech"
+          class="house-js-logo-small logo-cadastro-large"
+        />
+        <h2 class="titulo-cadastro-large">Identifique-se para iniciar:</h2>
+        <form id="cadastro-form">
+          <label for="nome">Nome completo:</label>
+          <input type="text" id="nome" name="nome" required placeholder="Digite seu nome" />
+
+          <label for="email">E-mail principal:</label>
+          <input type="email" id="email" name="email" required placeholder="exemplo@email.com" />
+
+          <button type="submit">Acessar o Censo</button>
+        </form>
+      </section>
+
+      <section id="quiz" class="quiz-section quiz-large">
+        <div id="questoes-container"></div>
+        <div id="feedback-questao" class="feedback-large"></div>
+      </section>
+
+      <section id="resultado" class="quiz-section">
+        <img src="logo2.png" alt="Logo Geração Tech" class="house-js-logo-small" />
+        <h2>Agradecemos a você por participar do Censo Geração Tech! É algo muito importante para nós.</h2>
+
+        <div id="nivel-resultado-final"></div>
+        <div id="analise-final"></div>
+        
+        <div id="botoes-acao-container"></div>
+
+      </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
