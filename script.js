@@ -9,6 +9,8 @@ const questoesCenso = [
       "Edição Online - 2024",
       "Edição Presencial - 2025",
       "Edição Online - 2025",
+      "Edição Online - 2026",
+      "Edição Presencial - 2026",
     ],
   },
   {
@@ -81,6 +83,19 @@ const questoesCenso = [
     pergunta: "Sua Raça autodeclarada:",
     opcoes: ["Branca", "Indígena", "Parda", "Preta", "Prefiro não declarar"],
   },
+  {
+  id: "genero",
+  tipo: "radio",
+  pergunta: "Qual a identidade de gênero com a qual se identifica?",
+  opcoes: [
+    "Homem cis",
+    "Mulher cis",
+    "Homem trans",
+    "Mulher trans",
+    "Não-binário",
+    "Outro",
+  ],
+},
   {
     id: "pcd",
     tipo: "radio",
@@ -392,6 +407,8 @@ function enviarParaGoogleForms(dados) {
 
   // entry.1669362593=Prefiro... (Raça)
   params.append("entry.1669362593", dados.raca);
+
+  params.append("entry.1587409530", dados.genero);
 
   // entry.168974903=Não (PCD)
   params.append("entry.168974903", dados.pcd);
