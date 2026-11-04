@@ -2,6 +2,13 @@ import nodemailer from "nodemailer";
 import fs from "fs";
 import path from "path";
 
+// Escapa o texto digitado pelo usuário antes de colocar no e-mail
+function escapar(texto) {
+  return String(texto ?? "").replace(/[&<>"']/g, (c) => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
+  }[c]));
+}
+
 export default async function handler(req, res) {
   // 1. Configuração de CORS (Importante para não dar erro no navegador)
   res.setHeader('Access-Control-Allow-Credentials', true);
@@ -48,6 +55,7 @@ export default async function handler(req, res) {
       linkedin: "LinkedIn",
       naturalidade: "Naturalidade",
       raca: "Autodeclaração",
+      genero: "Identidade de gênero",
       pcd: "PCD",
       qual_pcd: "Qual PCD"
     };
@@ -57,7 +65,7 @@ export default async function handler(req, res) {
     
     for (const [key, value] of Object.entries(respostas)) {
       // Se o valor estiver vazio, pula ou mostra "Não informado"
-      const respostaExibida = value ? value : "<em>Não informado</em>";
+      const respostaExibida = value ? escapar(value) : "<em>Não informado</em>";
       // Usa o label bonito ou o próprio ID se não tiver label
       const labelExibido = labels[key] || key;
 
@@ -73,7 +81,7 @@ export default async function handler(req, res) {
     // 5. Monta o HTML final para injetar no template
     const conteudoDoResultado = `
       <p style="font-size: 16px; color: #333;">
-        Olá, <strong>${nome}</strong>! Aqui está a cópia das suas respostas para o Censo Geração Tech.
+        Olá, <strong>${escapar(nome)}</strong>! Aqui está a cópia das suas respostas para o Censo Geração Tech.
       </p>
       <div style="background-color: #f9f9f9; padding: 20px; border-radius: 8px; margin-top: 20px;">
         <h3 style="color: #2C4156; margin-top: 0;">Resumo dos Dados:</h3>
@@ -90,7 +98,7 @@ export default async function handler(req, res) {
         emailTemplate = fs.readFileSync(templatePath, "utf8");
         // Substitui as variáveis no HTML
         emailTemplate = emailTemplate
-          .replace("{{nome}}", nome)
+          .replace("{{nome}}", escapar(nome))
           .replace("{{conteudo_do_resultado}}", conteudoDoResultado);
     } else {
         // Fallback se não achar o arquivo html

@@ -16,6 +16,13 @@ const app = express();
 app.use(cors());
 app.use(express.json({ limit: "10mb" })); // Substitui o body-parser antigo
 
+// Escapa o texto digitado pelo usuário antes de colocar no e-mail
+function escapar(texto) {
+  return String(texto ?? "").replace(/[&<>"']/g, (c) => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
+  }[c]));
+}
+
 app.post("/send-email", async (req, res) => {
   const dados = req.body;
   const { nome, email } = dados;
@@ -33,6 +40,7 @@ app.post("/send-email", async (req, res) => {
       linkedin: "LinkedIn",
       naturalidade: "Naturalidade",
       raca: "Raça/Cor",
+      genero: "Identidade de gênero",
       pcd: "É PCD?",
       qual_pcd: "Descrição PCD"
   };
@@ -45,7 +53,7 @@ app.post("/send-email", async (req, res) => {
         htmlListaRespostas += `
           <li style="margin-bottom: 12px; border-bottom: 1px solid #eee; padding-bottom: 8px;">
             <strong style="color: #39586D; display:block; font-size: 14px;">${mapaCampos[key]}</strong>
-            <span style="color: #333; font-size: 16px;">${dados[key] || "Não informado"}</span>
+            <span style="color: #333; font-size: 16px;">${escapar(dados[key]) || "Não informado"}</span>
           </li>`;
       }
     }
@@ -57,7 +65,7 @@ app.post("/send-email", async (req, res) => {
 
     // 4. Substitui os dados no template
     emailTemplate = emailTemplate
-      .replace('{{nome}}', nome)
+      .replace('{{nome}}', escapar(nome))
       .replace('{{conteudo_do_resultado}}', htmlListaRespostas);
 
     // 5. Envia o e-mail

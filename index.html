@@ -1,62 +1,101 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Censo Geração Tech - IEL & Digital College</title>
+    <meta name="description" content="Censo Geração Tech - mapeamento do perfil e da atuação profissional da comunidade Geração Tech." />
+    <title>Censo Geração Tech · IEL & Digital College</title>
+    <link rel="icon" href="logo2.png" />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <main class="quiz-container">
-      <section id="homepage" class="quiz-section active">
-        <img src="logo2.png" alt="Logo Geração Tech" class="house-js-logo" />
-        
-        <h1>Censo Geração Tech</h1>
-        
-        <p>
-          Participe do mapeamento do cenário tecnológico da nossa comunidade. 
-          Responda a este censo interativo para nos ajudar a entender o perfil, 
-          as habilidades e os interesses dos talentos da área de tecnologia.
-        </p>
-        <button id="iniciar-quiz">Iniciar Censo</button>
-      </section>
+    <div class="app">
+      <header class="topbar">
+        <img src="logo2.png" alt="Geração Tech" class="logo" />
+        <span class="selo">Censo 2026</span>
+      </header>
 
-      <section id="cadastro" class="quiz-section cadastro-large">
-        <img
-          src="logo2.png"
-          alt="Logo Geração Tech"
-          class="house-js-logo-small logo-cadastro-large"
-        />
-        <h2 class="titulo-cadastro-large">Identifique-se para iniciar:</h2>
-        <form id="cadastro-form">
-          <label for="nome">Nome completo:</label>
-          <input type="text" id="nome" name="nome" required placeholder="Digite seu nome" />
+      <main class="card">
+        <div class="progresso" id="progresso" hidden>
+          <div class="progresso-topo">
+            <span id="progresso-texto">Questão 1 de 1</span>
+            <span id="progresso-pct">0%</span>
+          </div>
+          <div class="barra" role="progressbar" aria-label="Progresso do censo" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <span id="progresso-barra"></span>
+          </div>
+        </div>
 
-          <label for="email">E-mail principal:</label>
-          <input type="email" id="email" name="email" required placeholder="exemplo@email.com" />
+        <!-- 1. Boas-vindas -->
+        <section id="homepage" class="secao ativa" aria-labelledby="titulo-inicio">
+          <div class="inicio">
+            <h1 id="titulo-inicio" tabindex="-1">Censo Geração Tech</h1>
+            <p class="lead">
+              Ajude a mapear o cenário tecnológico da nossa comunidade. Suas respostas mostram
+              onde estamos, no que trabalhamos e como podemos apoiar cada talento.
+            </p>
+            <div class="gt4" role="note">
+              <strong>Agora com a GT 4.0</strong>
+              <span>3 formações gratuitas (Full Stack, IA Generativa e FullCycle – Engenharia de Software), com aulas online ou presenciais. Início das aulas em 09/09/2026.</span>
+            </div>
+            <ul class="chips" aria-label="Informações sobre o censo">
+              <li>⏱ Cerca de 5 minutos</li>
+              <li>📨 Cópia das respostas por e-mail</li>
+              <li>🔒 Uso restrito ao projeto</li>
+            </ul>
+            <button id="iniciar-quiz" class="btn btn-primary">Começar o censo</button>
+          </div>
+        </section>
 
-          <button type="submit">Acessar o Censo</button>
-        </form>
-      </section>
+        <!-- 2. Identificação -->
+        <section id="cadastro" class="secao" aria-labelledby="titulo-cadastro">
+          <p class="etapa">Identificação</p>
+          <h2 id="titulo-cadastro" tabindex="-1">Antes de começar, como podemos te identificar?</h2>
+          <form id="cadastro-form" class="formulario" novalidate>
+            <div class="campo">
+              <label for="nome">Nome completo</label>
+              <input type="text" id="nome" name="nome" class="texto" placeholder="Digite seu nome" autocomplete="name" required />
+            </div>
+            <div class="campo">
+              <label for="email">E-mail principal</label>
+              <input type="email" id="email" name="email" class="texto" placeholder="exemplo@email.com" autocomplete="email" required />
+              <small class="ajuda">Enviaremos a cópia das suas respostas para este endereço.</small>
+            </div>
+            <div class="navegacao">
+              <button type="button" class="btn btn-ghost" data-voltar="homepage">Voltar</button>
+              <button type="submit" class="btn btn-primary">Continuar</button>
+            </div>
+          </form>
+        </section>
 
-      <section id="quiz" class="quiz-section quiz-large">
-        <div id="questoes-container"></div>
-        <div id="feedback-questao" class="feedback-large"></div>
-      </section>
+        <!-- 3. Perguntas -->
+        <section id="quiz" class="secao" aria-live="polite">
+          <p class="etapa" id="etapa-nome">Sua participação</p>
+          <form id="quiz-form" novalidate>
+            <h2 id="pergunta" class="pergunta" tabindex="-1"></h2>
+            <div id="questoes-container"></div>
+            <p id="feedback-questao" class="aviso" role="alert"></p>
+            <div class="navegacao">
+              <button type="button" id="anterior-questao" class="btn btn-ghost" hidden>Voltar</button>
+              <button type="submit" id="proxima-questao" class="btn btn-primary">Próxima</button>
+            </div>
+          </form>
+        </section>
 
-      <section id="resultado" class="quiz-section">
-        <img src="logo2.png" alt="Logo Geração Tech" class="house-js-logo-small" />
-        <h2>Agradecemos a você por participar do Censo Geração Tech! É algo muito importante para nós.</h2>
+        <!-- 4. Conclusão -->
+        <section id="resultado" class="secao resultado" aria-labelledby="titulo-resultado">
+          <div class="sucesso" aria-hidden="true">✓</div>
+          <h2 id="titulo-resultado" tabindex="-1">Censo concluído!</h2>
+          <p id="texto-resultado" class="lead"></p>
+          <div id="botoes-acao-container" class="acoes"></div>
+        </section>
+      </main>
 
-        <div id="nivel-resultado-final"></div>
-        <div id="analise-final"></div>
-        
-        <div id="botoes-acao-container"></div>
+      <footer class="rodape">
+        Projeto Geração Tech · IEL Ceará & Digital College
+      </footer>
+    </div>
 
-      </section>
-    </main>
-
-    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="script.js"></script>
   </body>

@@ -14,6 +14,17 @@ Ao final do preenchimento, os dados são enviados automaticamente para uma plani
 
 ---
 
+### 🆕 Novidades desta versão
+
+* **GT 4.0 (2026):** a pergunta de edição inclui as formações *Desenvolvedor Full Stack*, *IA Generativa* e *FullCycle – Engenharia de Software*, nas modalidades online e presencial.
+* **Novo layout:** cartão centralizado, progresso com seções, opções em cartões com foco por teclado e versão para celular.
+* **Campo de identidade de gênero** incluído no formulário e no e-mail de comprovante.
+* **Segurança:** textos digitados são escapados antes de entrar no e-mail.
+
+> ⚠️ Ao usar a versão nova, as opções de edição (inclusive as da GT 4.0) precisam existir também no Google Forms, na mesma ordem e com o mesmo texto, senão a resposta pode não ser gravada corretamente.
+
+---
+
 ### 💡 Funcionalidades
 
 ✅ **Formulário Passo a Passo:** Interface limpa e focada, apresentando uma pergunta por vez para não sobrecarregar o usuário.  

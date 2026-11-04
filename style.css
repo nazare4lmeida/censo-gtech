@@ -1,351 +1,583 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
 
-/* --- Variáveis baseadas na Paleta Navy Dream --- */
+/* ============================================================
+   Identidade visual – paleta Navy Dream + azul da logo Geração Tech
+   ============================================================ */
 :root {
-  --bg-body: #D2D7DB;       /* Cor mais clara da paleta para o fundo */
-  --bg-card: #F7F7F7;       /* Fundo do quiz (quase branco) */
-  --text-primary: #2C4156;  /* Azul marinho escuro para leitura */
-  --text-secondary: #39586D;/* Azul médio para subtítulos */
-  --text-muted: #7F99B2;    /* Texto de apoio */
-  
-  --primary-btn: #39586D;   /* Cor principal do botão */
-  --primary-btn-hover: #2C4156; /* Cor do hover */
-  
-  --border-color: #98A1AA;  /* Bordas suaves */
-  --input-bg: #FFFFFF;      /* Fundo branco puro para inputs */
-  
-  /* Cores de Feedback */
-  --success-bg: #d4edda;
-  --success-border: #c3e6cb;
-  --success-text: #155724;
-  
-  --error-bg: #f8d7da;
-  --error-border: #f5c6cb;
-  --error-text: #721c24;
+  --navy: #2c4156;        /* texto principal / botão */
+  --navy-2: #39586d;      /* texto secundário */
+  --navy-hover: #1f3347;
+  --muted: #7f99b2;       /* texto de apoio */
+  --border: #98a1aa;
+  --line: #d2d7db;
+  --soft: #f4f6f8;
+  --paper: #ffffff;
+  --accent: #1f6fb5;      /* azul da logo */
+  --accent-2: #0f4c8a;
+  --accent-soft: #eaf3fb;
+  --ok: #1e7d4f;
+  --danger: #b3261e;
+  --shadow: 0 12px 40px rgba(44, 65, 86, 0.12);
+  --radius: 14px;
 }
 
-/* Reset */
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
+}
+
+html,
+body {
   margin: 0;
-  padding: 0;
 }
 
 body {
-  font-family: "Poppins", sans-serif;
-  background-color: var(--bg-body);
-  color: var(--text-primary);
+  font-family: "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color: var(--navy);
+  min-height: 100vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  padding: 20px;
-  max-width: 1000px;
-  margin: 0 auto;
+  padding: 28px 16px;
+  background-color: #e9eef3;
+  background-image:
+    radial-gradient(900px 480px at 0% -5%, #f7f9fc 0%, transparent 60%),
+    radial-gradient(800px 500px at 110% 110%, #d6e2ee 0%, transparent 60%);
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
 }
 
-.quiz-container {
-  background-color: var(--bg-card);
-  border-radius: 16px;
-  box-shadow: 0 8px 30px rgba(44, 65, 86, 0.15);
-  border: 1px solid #ffffff;
-  max-width: 100%;
+/* Texto só para leitores de tela */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.app {
   width: 100%;
-  padding: 40px 40px;
-  text-align: center;
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
 }
 
-.house-js-logo, 
-.house-js-logo-small, 
-.logo-cadastro-large {
-  max-width: 250px;
-  margin-bottom: 30px;
-  border-radius: 10px;
+/* ---------- Topo ---------- */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  padding: 0 4px;
 }
 
-.quiz-section {
-  display: none;
-}
-
-.quiz-section.active {
+.logo {
+  height: 42px;
+  width: auto;
   display: block;
-  animation: fadeIn 0.5s ease-in-out;
 }
 
-@keyframes fadeIn {
+.selo {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--navy-2);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  padding: 6px 12px;
+  border-radius: 999px;
+}
+
+/* ---------- Cartão ---------- */
+.card {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: var(--paper);
+  border-radius: 24px;
+  box-shadow: var(--shadow);
+  padding: 40px 44px 36px;
+  min-height: 480px;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 6px;
+  background: linear-gradient(90deg, var(--navy-2), var(--accent), #7fb7e6);
+}
+
+.secao {
+  display: none;
+  flex: 1;
+  flex-direction: column;
+}
+
+.secao.ativa {
+  display: flex;
+  animation: entrar 0.45s ease both;
+}
+
+@keyframes entrar {
   from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  to { opacity: 1; transform: none; }
+}
+
+h1,
+h2 {
+  margin: 0;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--navy);
+}
+
+h1:focus,
+h2:focus {
+  outline: none;
 }
 
 h1 {
-  font-size: 2.4em;
-  margin-bottom: 15px;
-  color: var(--text-primary);
-  font-weight: 700;
+  font-size: 2.2rem;
+  margin-bottom: 14px;
 }
 
 h2 {
-  font-size: 2em;
-  margin-bottom: 20px;
-  color: var(--text-secondary);
+  font-size: 1.6rem;
+  margin-bottom: 22px;
 }
 
-h3 {
-  font-size: 1.8em;
-  margin-bottom: 15px;
-  color: var(--text-primary);
+.lead {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--navy-2);
+  margin: 0 0 22px;
 }
 
-p {
-  color: var(--text-secondary);
-  line-height: 1.6;
-  margin-bottom: 12px;
-  font-size: 1.1em;
-}
-
-/* --- Botões Gerais --- */
-button {
-  background-color: var(--primary-btn);
-  color: #ffffff;
-  border: none;
-  padding: 18px 32px;
-  font-size: 1.2em;
+.etapa {
+  align-self: flex-start;
+  margin: 0 0 14px;
+  font-size: 0.75rem;
   font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-2);
+  background: var(--accent-soft);
+  padding: 6px 12px;
   border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  margin-top: 20px;
-  width: 100%;
-  max-width: 350px;
-  box-shadow: 0 4px 6px rgba(57, 88, 109, 0.2);
 }
 
-button:hover {
-  background-color: var(--primary-btn-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(44, 65, 86, 0.3);
+.ajuda {
+  color: var(--muted);
+  font-size: 0.85rem;
 }
 
-#cadastro-form button[type="submit"] {
-  max-width: 350px;
-  align-self: center;
-  margin-top: 40px;
-}
-
-/* --- NOVA SEÇÃO: Botões de Navegação (Voltar/Próxima) --- */
-.botoes-nav {
-  display: flex;
-  gap: 15px;
-  justify-content: center;
-  margin-top: 30px;
-  width: 100%;
-  max-width: 400px; /* Um pouco mais largo para caber os dois */
-  margin-left: auto;
-  margin-right: auto;
-}
-
-/* Botão Voltar (Secundário/Cinza) */
-#anterior-questao {
-  background-color: #98A1AA; /* Cinza da paleta */
-  margin-top: 0;
-  box-shadow: none;
-}
-
-#anterior-questao:hover {
-  background-color: #7F99B2;
-}
-
-/* Ajuste no Botão Próxima quando está dentro do nav */
-#proxima-questao {
-  margin-top: 0;
-}
-
-/* Garante que ambos tenham o mesmo tamanho */
-.botoes-nav button {
-  flex: 1;
-}
-
-
-/* --- Inputs do Formulário --- */
-form {
+/* ---------- Boas-vindas ---------- */
+.inicio {
+  margin: auto 0;
   display: flex;
   flex-direction: column;
-  align-items: stretch;
-  margin-top: 20px;
+  align-items: flex-start;
+}
+
+.gt4 {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  margin: 0 0 22px;
+  padding: 16px 18px;
+  border-radius: 14px;
+  background: var(--accent-soft);
+  border-left: 4px solid var(--accent);
+  color: var(--navy-2);
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.gt4 strong {
+  color: var(--accent-2);
+  font-weight: 600;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  list-style: none;
+  padding: 0;
+  margin: 4px 0 30px;
+}
+
+.chips li {
+  background: var(--soft);
+  border: 1px solid var(--line);
+  color: var(--navy-2);
+  font-size: 0.9rem;
+  padding: 8px 14px;
+  border-radius: 999px;
+}
+
+/* ---------- Progresso ---------- */
+.progresso {
+  margin-bottom: 30px;
+}
+
+.progresso-topo {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--navy-2);
+  margin-bottom: 9px;
+}
+
+.barra {
+  height: 8px;
+  background: #e3e9ef;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.barra span {
+  display: block;
+  height: 100%;
+  width: 0;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--navy-2), var(--accent));
+  transition: width 0.45s ease;
+}
+
+/* ---------- Botões ---------- */
+.btn {
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1;
+  border: 0;
+  border-radius: 12px;
+  padding: 16px 28px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: transform 0.15s ease, background-color 0.2s ease, box-shadow 0.2s ease, opacity 0.2s;
+}
+
+.btn:focus-visible {
+  outline: 3px solid rgba(31, 111, 181, 0.45);
+  outline-offset: 3px;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-primary {
+  background: var(--navy);
+  color: #fff;
+  box-shadow: 0 8px 18px rgba(44, 65, 86, 0.22);
+}
+
+.btn-primary:hover {
+  background: var(--navy-hover);
+  box-shadow: 0 10px 22px rgba(44, 65, 86, 0.3);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--navy-2);
+  border: 1.5px solid var(--line);
+}
+
+.btn-ghost:hover {
+  background: var(--soft);
+  border-color: var(--border);
+}
+
+/* ---------- Formulário de identificação ---------- */
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 label {
-  text-align: left;
-  margin: 10px 0;
-  color: var(--text-primary);
   font-weight: 600;
-  font-size: 1.1em;
+  font-size: 0.95rem;
+  color: var(--navy-2);
 }
 
-input[type="text"],
-input[type="email"] {
-  background-color: var(--input-bg);
-  border: 2px solid var(--border-color);
-  border-radius: 8px;
-  padding: 16px 20px;
-  font-size: 1.1em;
-  color: var(--text-primary);
-  margin-bottom: 20px;
-  transition: border-color 0.3s;
-}
-
-input[type="text"]:focus,
-input[type="email"]:focus {
-  outline: none;
-  border-color: var(--primary-btn);
-  background-color: #f0f4f8;
-}
-
-/* --- Área do Quiz/Censo --- */
-.quiz-large .questao {
-  padding: 20px;
-}
-
-.quiz-large .questao h3 {
-  font-size: 1.8em;
-  margin-top: 30px;
-  margin-bottom: 30px;
-  color: var(--text-primary);
-  line-height: 1.4;
-}
-
-.quiz-large .pergunta-header {
-  margin-bottom: 20px;
-}
-
-.quiz-large .questao-nivel {
-  background-color: var(--bg-body);
-  color: var(--text-secondary);
-  border: 1px solid var(--border-color);
-  font-size: 0.9em;
-  padding: 8px 20px;
-  border-radius: 20px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-/* --- Opções de Resposta --- */
-.opcoes {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  margin-top: 30px;
-}
-
-.opcoes label {
-  background-color: #FFFFFF;
-  border: 2px solid #E0E0E0;
+.texto {
+  font: inherit;
+  font-size: 1rem;
+  color: var(--navy);
+  background: var(--paper);
+  border: 1.5px solid var(--border);
   border-radius: 12px;
-  padding: 20px 25px;
-  text-align: left;
-  transition: all 0.2s ease;
-  cursor: pointer;
+  padding: 15px 18px;
+  width: 100%;
+  transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
+}
+
+.texto::placeholder {
+  color: #aab4bd;
+}
+
+.texto:hover {
+  border-color: var(--muted);
+}
+
+.texto:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(31, 111, 181, 0.14);
+}
+
+/* ---------- Perguntas ---------- */
+.pergunta {
+  font-size: 1.45rem;
+  font-weight: 600;
+  line-height: 1.35;
+  margin-bottom: 26px;
+}
+
+.opcoes {
+  display: grid;
+  gap: 12px;
+}
+
+.opcao {
+  position: relative;
   display: flex;
   align-items: center;
-  color: var(--text-primary);
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  gap: 16px;
+  padding: 16px 18px;
+  background: var(--paper);
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-weight: 500;
+  color: var(--navy);
+  transition: border-color 0.2s, background-color 0.2s, box-shadow 0.2s, transform 0.15s;
+}
+
+.opcao:hover {
+  border-color: var(--muted);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(44, 65, 86, 0.08);
+}
+
+.opcao input {
+  /* Input real continua acessível por teclado, só fica invisível */
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+
+.opcao:focus-within {
+  outline: 3px solid rgba(31, 111, 181, 0.35);
+  outline-offset: 2px;
+}
+
+.marca {
+  flex: 0 0 22px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  display: grid;
+  place-items: center;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.marca::after {
+  content: "";
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #fff;
+  transform: scale(0);
+  transition: transform 0.2s ease;
+}
+
+.opcao.selecionada {
+  border-color: var(--accent);
+  background: #f2f8fd;
+  box-shadow: 0 0 0 3px rgba(31, 111, 181, 0.12);
+}
+
+.opcao.selecionada .marca {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.opcao.selecionada .marca::after {
+  transform: scale(1);
+}
+
+.aviso {
+  min-height: 0;
+  margin: 14px 0 0;
+  color: var(--danger);
+  font-size: 0.92rem;
   font-weight: 500;
 }
 
-.opcoes label:hover {
-  background-color: #f0f7fa;
-  border-color: var(--text-muted);
-  transform: translateY(-2px);
+.aviso:empty {
+  display: none;
 }
 
-/* Estilo do Radio Button (Bolinha) */
-.opcoes input[type="radio"] {
-  transform: scale(1.4);       /* Maior */
-  margin-right: 18px;          /* Separado do texto */
-  accent-color: var(--primary-btn); /* Cor azul petróleo ao marcar */
-  cursor: pointer;
+/* ---------- Navegação ---------- */
+.navegacao {
+  margin-top: auto;
+  padding-top: 34px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
 }
 
-.opcoes label span {
-  display: block;
-  font-size: 1.2rem;
-  line-height: 1.4;
-  word-break: break-word;
+.navegacao .btn-primary {
+  margin-left: auto;
+  min-width: 200px;
 }
 
-/* Feedback Box */
-.feedback-questao {
-  margin: 15px auto 0;
-  padding: 15px 20px;
-  border-radius: 8px;
-  text-align: left;
-  width: 100%;
-  box-sizing: border-box;
-  font-size: 1em;
+/* ---------- Conclusão ---------- */
+.resultado {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: auto 0;
 }
 
-/* Resultado Final */
-.resultado-card {
-  background-color: #FFFFFF;
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  padding: 30px;
-  margin-top: 25px;
-  box-shadow: inset 0 0 20px rgba(0,0,0,0.02);
+.resultado h2 {
+  margin-bottom: 14px;
 }
 
-#nivel-resultado-final h3 {
-  color: var(--primary-btn);
-  margin-bottom: 10px;
+.resultado .lead {
+  max-width: 480px;
+  margin-bottom: 0;
 }
 
-/* Container de botões da tela final (Email/Reiniciar) */
-.botoes-resultado {
+.sucesso {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 42px;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, #34a06c, var(--ok));
+  box-shadow: 0 12px 26px rgba(30, 125, 79, 0.28);
+  margin-bottom: 22px;
+  animation: pop 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.3) both;
+}
+
+@keyframes pop {
+  from { transform: scale(0.6); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.acoes {
+  margin-top: 30px;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 15px;
-  margin-top: 30px;
+  gap: 12px;
 }
 
-.botoes-resultado button {
-  background-color: var(--bg-body);
-  color: var(--text-primary);
-  border: 1px solid var(--border-color);
-  box-shadow: none;
+.rodape {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 0.82rem;
+  color: var(--muted);
 }
 
-.botoes-resultado button:hover {
-  background-color: var(--border-color);
-  color: #fff;
+/* ---------- Responsivo ---------- */
+@media (max-width: 640px) {
+  body {
+    padding: 12px 10px 16px;
+  }
+
+  .topbar {
+    margin-bottom: 12px;
+  }
+
+  .logo {
+    height: 34px;
+  }
+
+  .card {
+    padding: 28px 20px 24px;
+    border-radius: 20px;
+    min-height: 0;
+  }
+
+  h1 {
+    font-size: 1.75rem;
+  }
+
+  h2 {
+    font-size: 1.35rem;
+  }
+
+  .pergunta {
+    font-size: 1.2rem;
+  }
+
+  .navegacao {
+    flex-direction: column-reverse;
+    align-items: stretch;
+    padding-top: 26px;
+  }
+
+  .navegacao .btn {
+    width: 100%;
+  }
+
+  .navegacao .btn-primary {
+    margin-left: 0;
+    min-width: 0;
+  }
 }
 
-/* Responsividade */
-@media (max-width: 768px) {
-  body { padding: 10px; }
-  .quiz-container { padding: 30px 20px; }
-  
-  h1 { font-size: 2em; }
-  h3 { font-size: 1.5em; }
-  
-  .opcoes label span {
-    font-size: 1.1rem;
+/* Respeita quem pede menos animação */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
   }
-
-  .opcoes input[type="radio"] {
-    margin-right: 12px;
-  }
-  
-  .botoes-resultado {
-    flex-direction: column;
-  }
-
-  /* No mobile, os botões de navegação podem empilhar se o texto for grande,
-     mas geralmente lado a lado funciona bem se o texto for curto (Voltar/Próxima).
-     Se quiser empilhar: */
-  /* .botoes-nav {
-    flex-direction: column;
-  } 
-  */
 }
