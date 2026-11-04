@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Painel do Censo · Geração Tech</title>
+    <link rel="icon" href="logo2.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="admin.css" />
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  </head>
+  <body>
+    <!-- ================= Login ================= -->
+    <main id="tela-login" class="login" hidden>
+      <form id="form-login" class="caixa-login" novalidate>
+        <img src="logo2.png" alt="Geração Tech" class="logo" />
+        <h1>Painel do Censo</h1>
+        <p class="ajuda">Digite a senha da equipe para entrar.</p>
+        <div class="campo">
+          <label for="senha">Senha</label>
+          <input id="senha" type="password" class="texto" autocomplete="current-password" required />
+        </div>
+        <p id="aviso-login" class="aviso" role="alert"></p>
+        <button type="submit" class="btn btn-primary largo">Entrar</button>
+      </form>
+    </main>
+
+    <!-- ================= Painel ================= -->
+    <div id="tela-painel" class="painel" hidden>
+      <header class="cabecalho">
+        <div class="marca-admin">
+          <img src="logo2.png" alt="Geração Tech" class="logo" />
+          <span>Painel do Censo</span>
+        </div>
+        <div class="acoes-topo">
+          <button id="btn-novo" class="btn btn-primary">+ Novo aluno</button>
+          <button id="btn-importar" class="btn btn-ghost">Importar</button>
+          <button id="btn-exportar" class="btn btn-ghost">Exportar</button>
+          <button id="btn-sair" class="btn btn-link">Sair</button>
+        </div>
+      </header>
+
+      <section class="filtros-bloco" aria-label="Busca e filtros">
+        <input id="busca" type="search" class="texto busca" placeholder="Buscar por nome, e-mail ou telefone" aria-label="Buscar aluno" />
+        <div class="filtros">
+          <label class="filtro">Cidade
+            <select id="filtro-cidade" class="texto"><option value="">Todas</option></select>
+          </label>
+          <label class="filtro">Gênero
+            <select id="filtro-genero" class="texto"><option value="">Todos</option></select>
+          </label>
+          <label class="filtro">Atua em tecnologia
+            <select id="filtro-tec" class="texto">
+              <option value="">Todos</option>
+              <option value="Sim">Sim</option>
+              <option value="Não">Não</option>
+              <option value="Sem resposta">Sem resposta</option>
+            </select>
+          </label>
+          <label class="filtro">GT
+            <select id="filtro-gt" class="texto"><option value="">Todos</option></select>
+          </label>
+          <button id="limpar-filtros" class="btn btn-link">Limpar filtros</button>
+        </div>
+      </section>
+
+      <p id="aviso-painel" class="aviso aviso-painel" role="status"></p>
+      <p id="contagem" class="contagem"></p>
+
+      <div class="tabela-caixa">
+        <table class="tabela">
+          <thead>
+            <tr>
+              <th scope="col">Nome</th>
+              <th scope="col">E-mail</th>
+              <th scope="col" class="so-desktop">Telefone</th>
+              <th scope="col">Cidade</th>
+              <th scope="col" class="so-desktop">Tecnologia</th>
+              <th scope="col" class="so-desktop">GT</th>
+            </tr>
+          </thead>
+          <tbody id="corpo-tabela"></tbody>
+        </table>
+      </div>
+
+      <nav class="paginacao" aria-label="Páginas">
+        <button id="pag-anterior" class="btn btn-ghost">Anterior</button>
+        <span id="pag-info"></span>
+        <button id="pag-proxima" class="btn btn-ghost">Próxima</button>
+      </nav>
+    </div>
+
+    <!-- ================= Modal: aluno ================= -->
+    <div id="modal-aluno" class="modal" hidden>
+      <div class="modal-caixa" role="dialog" aria-modal="true" aria-labelledby="titulo-aluno">
+        <header class="modal-topo">
+          <h2 id="titulo-aluno">Novo aluno</h2>
+          <button type="button" class="fechar" data-fechar aria-label="Fechar">×</button>
+        </header>
+
+        <form id="form-aluno" class="modal-corpo" novalidate>
+          <fieldset class="grupo">
+            <legend>Contato</legend>
+            <div class="grade">
+              <div class="campo tudo">
+                <label for="f-nome">Nome completo *</label>
+                <input id="f-nome" name="nome" class="texto" required />
+              </div>
+              <div class="campo">
+                <label for="f-email">E-mail</label>
+                <input id="f-email" name="email" type="text" class="texto" />
+              </div>
+              <div class="campo">
+                <label for="f-telefone">Telefone</label>
+                <input id="f-telefone" name="telefone" class="texto" placeholder="(85) 99999-9999" />
+              </div>
+              <div class="campo tudo">
+                <label for="f-linkedin">LinkedIn</label>
+                <input id="f-linkedin" name="linkedin" class="texto" />
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="grupo">
+            <legend>Perfil</legend>
+            <div class="grade">
+              <div class="campo">
+                <label for="f-cidade">Cidade</label>
+                <input id="f-cidade" name="cidade" class="texto" list="lista-cidades" autocomplete="off" />
+              </div>
+              <div class="campo">
+                <label for="f-genero">Gênero</label>
+                <input id="f-genero" name="genero" class="texto" list="lista-generos" autocomplete="off" />
+              </div>
+              <div class="campo">
+                <label for="f-trabalha_tech">Atua em tecnologia</label>
+                <select id="f-trabalha_tech" name="trabalha_tech" class="texto">
+                  <option value="">Não informado</option>
+                  <option value="Sim">Sim</option>
+                  <option value="Não">Não</option>
+                  <option value="Sem resposta">Sem resposta</option>
+                </select>
+              </div>
+              <div class="campo">
+                <label for="f-area_tech">Área de tecnologia</label>
+                <input id="f-area_tech" name="area_tech" class="texto" />
+              </div>
+              <div class="campo">
+                <label for="f-gt_listas">GT</label>
+                <input id="f-gt_listas" name="gt_listas" class="texto" placeholder="Ex.: GT 2" />
+              </div>
+              <div class="campo">
+                <label for="f-edicao">Última edição</label>
+                <input id="f-edicao" name="edicao" class="texto" />
+              </div>
+            </div>
+          </fieldset>
+
+          <details class="mais">
+            <summary>Mais dados</summary>
+            <div class="grade">
+              <div class="campo"><label for="f-curso_superior">Curso superior</label><input id="f-curso_superior" name="curso_superior" class="texto" /></div>
+              <div class="campo"><label for="f-naturalidade">Naturalidade</label><input id="f-naturalidade" name="naturalidade" class="texto" /></div>
+              <div class="campo"><label for="f-raca">Raça</label><input id="f-raca" name="raca" class="texto" /></div>
+              <div class="campo"><label for="f-pcd">PCD</label><input id="f-pcd" name="pcd" class="texto" /></div>
+              <div class="campo"><label for="f-qual_pcd">PCD – qual</label><input id="f-qual_pcd" name="qual_pcd" class="texto" /></div>
+              <div class="campo"><label for="f-origem">Origem do cadastro</label><input id="f-origem" name="origem" class="texto" /></div>
+              <div class="campo"><label for="f-confianca">Confiança</label><input id="f-confianca" name="confianca" class="texto" /></div>
+              <div class="campo tudo"><label for="f-observacoes">Observações</label><textarea id="f-observacoes" name="observacoes" class="texto" rows="3"></textarea></div>
+            </div>
+          </details>
+
+          <details id="bloco-historico" class="mais">
+            <summary>Histórico de alterações</summary>
+            <ul id="lista-historico" class="historico"></ul>
+          </details>
+
+          <p id="aviso-aluno" class="aviso" role="alert"></p>
+        </form>
+
+        <div id="confirma-exclusao" class="confirma" hidden>
+          <p>Excluir <strong id="nome-exclusao"></strong>? Esta ação não pode ser desfeita.</p>
+          <div class="confirma-botoes">
+            <button type="button" id="cancelar-exclusao" class="btn btn-ghost">Cancelar</button>
+            <button type="button" id="confirmar-exclusao" class="btn btn-perigo">Sim, excluir</button>
+          </div>
+        </div>
+
+        <footer class="modal-rodape">
+          <button type="button" id="btn-excluir" class="btn btn-perigo-link">Excluir aluno</button>
+          <div class="direita">
+            <button type="button" class="btn btn-ghost" data-fechar>Cancelar</button>
+            <button type="submit" form="form-aluno" id="btn-salvar" class="btn btn-primary">Salvar</button>
+          </div>
+        </footer>
+      </div>
+    </div>
+
+    <!-- ================= Modal: importar ================= -->
+    <div id="modal-importar" class="modal" hidden>
+      <div class="modal-caixa" role="dialog" aria-modal="true" aria-labelledby="titulo-importar">
+        <header class="modal-topo">
+          <h2 id="titulo-importar">Importar alunos</h2>
+          <button type="button" class="fechar" data-fechar aria-label="Fechar">×</button>
+        </header>
+        <div class="modal-corpo">
+          <p class="ajuda">
+            Escolha uma planilha (.xlsx ou .csv). Se houver uma aba chamada <strong>Base Completa</strong>, ela será usada.
+            Quem já está cadastrado, com o mesmo nome e o mesmo contato, não entra de novo.
+          </p>
+          <input id="arquivo-importar" type="file" accept=".xlsx,.xls,.csv" class="arquivo" />
+          <div id="previa-importar" class="previa" hidden></div>
+          <div id="progresso-importar" class="progresso-importar" hidden>
+            <div class="barra"><span id="barra-importar"></span></div>
+            <p id="texto-importar" class="ajuda"></p>
+          </div>
+          <p id="aviso-importar" class="aviso" role="alert"></p>
+        </div>
+        <footer class="modal-rodape">
+          <button type="button" class="btn btn-ghost" data-fechar>Fechar</button>
+          <button type="button" id="btn-confirmar-importar" class="btn btn-primary" disabled>Importar</button>
+        </footer>
+      </div>
+    </div>
+
+    <datalist id="lista-cidades"></datalist>
+    <datalist id="lista-generos"></datalist>
+
+    <script src="admin.js"></script>
+  </body>
+</html>
