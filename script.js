@@ -417,6 +417,7 @@ async function finalizarCenso() {
 
   try {
     await enviarParaGoogleForms(respostas);
+    await sincronizarComPainel(respostas);
   } catch (erro) {
     console.error("Falha ao enviar o censo:", erro);
     els.proxima.disabled = false;
@@ -446,6 +447,19 @@ function enviarParaGoogleForms(dados) {
   // mode "no-cors": o Google não libera a resposta para o navegador,
   // por isso só um erro de rede é detectado aqui.
   return fetch(FORM_URL, { method: "POST", body: params, mode: "no-cors" });
+}
+
+// Atualiza o painel admin com a resposta. Se falhar, o censo continua concluído.
+async function sincronizarComPainel(dados) {
+  try {
+    await fetch("/api/censo-sync", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(dados),
+    });
+  } catch (erro) {
+    console.error("Painel não atualizado:", erro);
+  }
 }
 
 function mostrarConclusao(dados) {
