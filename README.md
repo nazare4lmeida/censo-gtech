@@ -1,6 +1,6 @@
 # Censo Geração Tech 📊
 
-> Projeto desenvolvido para o mapeamento da comunidade **Geração Tech** (IEL Ceará & Digital College).
+> Projeto desenvolvido para o mapeamento da comunidade **Geração Tech** 
 
 ---
 
