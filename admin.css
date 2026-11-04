@@ -50,6 +50,7 @@ body {
   height: 38px;
   width: auto;
   display: block;
+  align-self: flex-start;
 }
 
 h1,
