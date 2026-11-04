@@ -16,7 +16,6 @@ Ao final do preenchimento, os dados são enviados automaticamente para uma plani
 
 ### 🆕 Novidades desta versão
 
-* **GT 4.0 (2026):** a pergunta de edição inclui as formações *Desenvolvedor Full Stack*, *IA Generativa* e *FullCycle – Engenharia de Software*, nas modalidades online e presencial.
 * **Novo layout:** cartão centralizado, progresso com seções, opções em cartões com foco por teclado e versão para celular.
 * **Campo de identidade de gênero** incluído no formulário e no e-mail de comprovante.
 * **Segurança:** textos digitados são escapados antes de entrar no e-mail.

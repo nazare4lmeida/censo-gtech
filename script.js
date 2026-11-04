@@ -42,12 +42,6 @@ const questoesCenso = [
       "Edição Online - 2025",
       "Edição Online - 2026",
       "Edição Presencial - 2026",
-      "GT 4.0 - FullCycle Engenharia de Software (Online)",
-      "GT 4.0 - FullCycle Engenharia de Software (Presencial)",
-      "GT 4.0 - Desenvolvedor Full Stack (Online)",
-      "GT 4.0 - Desenvolvedor Full Stack (Presencial)",
-      "GT 4.0 - IA Generativa (Online)",
-      "GT 4.0 - IA Generativa (Presencial)",
     ],
   },
   {
